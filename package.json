@@ -4,9 +4,8 @@
     "type": "module",
     "private": true,
     "scripts": {
-        "build": "node scripts/check-db.js",
-        "dev": "vercel dev",
-        "deploy": "vercel --prod"
+        "check": "node scripts/check-db.js",
+        "dev": "vercel dev"
     },
     "dependencies": {
         "@upstash/redis": "^1.28.0"
