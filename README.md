@@ -1,51 +1,65 @@
 # Activity Status API
 
-这是一个简单的 Vercel Serverless API，用于存储和检索当前应用状态。
+A simple Vercel Serverless API for storing and retrieving your current activity status.
 
-## 部署步骤
+## Features
 
-### 1. 创建 Upstash Redis 数据库
+- 📊 Store current app/activity status in Redis
+- 🔄 Auto-expire after 10 minutes of inactivity
+- 🔒 API key authentication for posting
+- 🌐 CORS enabled for frontend access
 
-1. 访问 [Upstash Console](https://console.upstash.com/)
-2. 注册/登录账号
-3. 创建一个新的 Redis 数据库（选择免费计划）
-4. 在数据库详情页获取 `UPSTASH_REDIS_REST_URL` 和 `UPSTASH_REDIS_REST_TOKEN`
+## Quick Start
 
-### 2. 部署到 Vercel
+### 1. Create Upstash Redis Database (Free)
 
-1. 在 GitHub 上创建一个新仓库，上传 `activity-api` 文件夹中的所有文件
-2. 访问 [Vercel](https://vercel.com/)，导入该仓库
-3. 在项目设置中添加环境变量：
-   - `UPSTASH_REDIS_REST_URL`: 你的 Redis REST URL
-   - `UPSTASH_REDIS_REST_TOKEN`: 你的 Redis REST Token
-   - `API_SECRET`: 自定义一个密钥（用于上报时验证）
-4. 部署完成后获取 API 地址
+1. Go to [Upstash Console](https://console.upstash.com/)
+2. Create a new Redis database (free tier)
+3. Get `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN` from the database details
 
-### 3. 配置博客
+### 2. Deploy to Vercel
 
-修改 `ProfileBar.astro` 中的 `ACTIVITY_API_URL` 为你的 Vercel API 地址：
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/flhcxcat/activity-api)
+
+Or manually:
+
+1. Fork/clone this repository
+2. Import to Vercel
+3. Add environment variables in Vercel dashboard:
+   - `UPSTASH_REDIS_REST_URL` - Your Redis REST URL (with https://)
+   - `UPSTASH_REDIS_REST_TOKEN` - Your Redis REST Token
+   - `API_SECRET` - Create a secret key for API authentication
+
+### 3. Configure Your Blog
+
+Update the API URL in your blog's frontend code:
 
 ```javascript
 const ACTIVITY_API_URL = 'https://your-project.vercel.app/api/activity';
 ```
 
-### 4. 运行本地客户端
+### 4. Run the Reporter Script
 
-修改 `activity-reporter.ps1` 中的配置：
+Edit `activity-reporter.ps1` and set your configuration:
 
 ```powershell
 $API_URL = "https://your-project.vercel.app/api/activity"
-$API_SECRET = "your-api-secret"
+$API_SECRET = "your-api-secret"  # Same as Vercel env var
 ```
 
-然后运行脚本开始上报当前应用状态。
+Then run:
 
-## API 端点
+```powershell
+.\activity-reporter.ps1
+```
+
+## API Endpoints
 
 ### GET /api/activity
-获取当前应用状态
 
-响应：
+Get current activity status.
+
+**Response:**
 ```json
 {
   "app": "VS Code",
@@ -54,14 +68,74 @@ $API_SECRET = "your-api-secret"
 ```
 
 ### POST /api/activity
-上报当前应用状态
 
-请求头：
-- `Authorization`: Bearer your-api-secret
+Report current activity (requires authentication).
 
-请求体：
+**Headers:**
+- `Authorization: Bearer your-api-secret`
+- `Content-Type: application/json`
+
+**Body:**
 ```json
 {
   "app": "VS Code"
 }
 ```
+
+### GET /api/health
+
+Health check endpoint to verify configuration.
+
+**Response:**
+```json
+{
+  "status": "ok",
+  "message": "All systems operational",
+  "checks": {
+    "envVars": { "status": "pass" },
+    "redis": { "status": "pass" }
+  }
+}
+```
+
+## Local Development
+
+```bash
+# Install dependencies
+npm install
+
+# Check database connection
+npm run check-db
+
+# Run local dev server (requires Vercel CLI)
+npm run dev
+```
+
+## Troubleshooting
+
+### API returns 404
+- Ensure you deployed to Vercel correctly
+- Check that `api/activity.js` and `api/health.js` exist
+- Try redeploying from Vercel dashboard
+
+### Redis connection fails
+- Verify `UPSTASH_REDIS_REST_URL` includes `https://`
+- Check that `UPSTASH_REDIS_REST_TOKEN` is correct
+- Visit `/api/health` to debug
+
+### PowerShell script fails
+- Ensure `$API_SECRET` matches Vercel environment variable
+- Check network/firewall settings
+- Verify API URL is correct
+
+## Privacy
+
+The reporter script includes:
+- **Blacklist**: Apps that won't be reported (Settings, Task Manager, etc.)
+- **Name mapping**: Clean up process names for display
+
+Edit `$BLACKLIST` and `$APP_NAME_MAP` in `activity-reporter.ps1` to customize.
+
+## License
+
+MIT

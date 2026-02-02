@@ -3,6 +3,10 @@
     "version": "1.0.0",
     "type": "module",
     "private": true,
+    "scripts": {
+        "check-db": "node scripts/check-db.js",
+        "dev": "vercel dev"
+    },
     "dependencies": {
         "@upstash/redis": "^1.28.0"
     }

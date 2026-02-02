@@ -2,8 +2,8 @@
 # This script detects the currently active window and reports it to your API
 
 # ============ CONFIGURATION ============
-$API_URL = "https://your-activity-api.vercel.app/api/activity"
-$API_SECRET = "your-api-secret"
+$API_URL = "https://activity-api-chi.vercel.app/api/activity"
+$API_SECRET = "your-api-secret"  # 改成你在Vercel设置的API_SECRET
 $REPORT_INTERVAL = 30  # Report every 30 seconds
 
 # Blacklist: Apps that should not be reported (privacy)
@@ -15,26 +15,139 @@ $BLACKLIST = @(
 
 # App name mappings: Clean up ugly process names
 $APP_NAME_MAP = @{
-    "Code" = "VS Code"
-    "Code - Insiders" = "VS Code Insiders"
-    "devenv" = "Visual Studio"
-    "chrome" = "Chrome"
-    "msedge" = "Edge"
-    "firefox" = "Firefox"
-    "explorer" = "File Explorer"
-    "Discord" = "Discord"
-    "Spotify" = "Spotify"
-    "WindowsTerminal" = "Terminal"
-    "powershell" = "PowerShell"
-    "cmd" = "CMD"
-    "notepad" = "Notepad"
-    "notepad++" = "Notepad++"
-    "idea64" = "IntelliJ IDEA"
-    "pycharm64" = "PyCharm"
-    "webstorm64" = "WebStorm"
-    "Telegram" = "Telegram"
-    "WeChat" = "WeChat"
-    "QQ" = "QQ"
+    # IDEs & Editors
+    "Code"              = "VS Code"
+    "Code - Insiders"   = "VS Code Insiders"
+    "devenv"            = "Visual Studio"
+    "idea64"            = "IntelliJ IDEA"
+    "pycharm64"         = "PyCharm"
+    "webstorm64"        = "WebStorm"
+    "clion64"           = "CLion"
+    "goland64"          = "GoLand"
+    "rider64"           = "Rider"
+    "datagrip64"        = "DataGrip"
+    "phpstorm64"        = "PhpStorm"
+    "rubymine64"        = "RubyMine"
+    "notepad"           = "Notepad"
+    "notepad++"         = "Notepad++"
+    "sublime_text"      = "Sublime Text"
+    "atom"              = "Atom"
+    "vim"               = "Vim"
+    "nvim"              = "Neovim"
+    "emacs"             = "Emacs"
+    
+    # Browsers
+    "chrome"            = "Chrome"
+    "msedge"            = "Edge"
+    "firefox"           = "Firefox"
+    "opera"             = "Opera"
+    "brave"             = "Brave"
+    "vivaldi"           = "Vivaldi"
+    "arc"               = "Arc"
+    
+    # Terminals
+    "WindowsTerminal"   = "Terminal"
+    "powershell"        = "PowerShell"
+    "pwsh"              = "PowerShell"
+    "cmd"               = "CMD"
+    "mintty"            = "Git Bash"
+    "ConEmu64"          = "ConEmu"
+    "Hyper"             = "Hyper"
+    "Tabby"             = "Tabby"
+    "Alacritty"         = "Alacritty"
+    "wezterm"           = "WezTerm"
+    
+    # Communication
+    "Discord"           = "Discord"
+    "Telegram"          = "Telegram"
+    "WeChat"            = "WeChat"
+    "QQ"                = "QQ"
+    "Slack"             = "Slack"
+    "Teams"             = "Microsoft Teams"
+    "Zoom"              = "Zoom"
+    "Skype"             = "Skype"
+    "Element"           = "Element"
+    "Signal"            = "Signal"
+    "LINE"              = "LINE"
+    
+    # Media & Entertainment
+    "Spotify"           = "Spotify"
+    "AIMP"              = "AIMP"
+    "foobar2000"        = "foobar2000"
+    "iTunes"            = "iTunes"
+    "vlc"               = "VLC"
+    "PotPlayer"         = "PotPlayer"
+    "mpv"               = "mpv"
+    "Netflix"           = "Netflix"
+    "Bilibili"          = "Bilibili"
+    
+    # Gaming
+    "Steam"             = "Steam"
+    "EpicGamesLauncher" = "Epic Games"
+    "Origin"            = "Origin"
+    "Battle.net"        = "Battle.net"
+    "Uplay"             = "Ubisoft Connect"
+    "GenshinImpact"     = "Genshin Impact"
+    "StarRail"          = "Honkai: Star Rail"
+    "ZenlessZoneZero"   = "Zenless Zone Zero"
+    "League of Legends" = "League of Legends"
+    "Valorant"          = "Valorant"
+    "Minecraft"         = "Minecraft"
+    "osu!"              = "osu!"
+    
+    # Design & Creative
+    "Photoshop"         = "Photoshop"
+    "Illustrator"       = "Illustrator"
+    "AfterFX"           = "After Effects"
+    "PremierePro"       = "Premiere Pro"
+    "Figma"             = "Figma"
+    "Sketch"            = "Sketch"
+    "Blender"           = "Blender"
+    "GIMP"              = "GIMP"
+    "Inkscape"          = "Inkscape"
+    "Krita"             = "Krita"
+    "DaVinciResolve"    = "DaVinci Resolve"
+    "OBS64"             = "OBS Studio"
+    "Canva"             = "Canva"
+    
+    # Productivity
+    "WINWORD"           = "Word"
+    "EXCEL"             = "Excel"
+    "POWERPNT"          = "PowerPoint"
+    "ONENOTE"           = "OneNote"
+    "OUTLOOK"           = "Outlook"
+    "Notion"            = "Notion"
+    "Obsidian"          = "Obsidian"
+    "Typora"            = "Typora"
+    "Logseq"            = "Logseq"
+    "Roam"              = "Roam Research"
+    "Todoist"           = "Todoist"
+    "TickTick"          = "TickTick"
+    
+    # Development Tools
+    "docker"            = "Docker"
+    "Postman"           = "Postman"
+    "Insomnia"          = "Insomnia"
+    "GitHubDesktop"     = "GitHub Desktop"
+    "SourceTree"        = "SourceTree"
+    "Fork"              = "Fork"
+    "TablePlus"         = "TablePlus"
+    "DataGrip"          = "DataGrip"
+    "MongoDB"           = "MongoDB Compass"
+    "RedisInsight"      = "Redis Insight"
+    "HeidiSQL"          = "HeidiSQL"
+    "Navicat"           = "Navicat"
+    
+    # System & Utilities
+    "explorer"          = "File Explorer"
+    "Everything"        = "Everything"
+    "7zFM"              = "7-Zip"
+    "WinRAR"            = "WinRAR"
+    "Snipaste"          = "Snipaste"
+    "ShareX"            = "ShareX"
+    "PicGo"             = "PicGo"
+    "Clash"             = "Clash"
+    "v2rayN"            = "v2rayN"
 }
 # ========================================
 
@@ -79,12 +192,13 @@ function Get-ActiveWindowInfo {
         $process = Get-Process -Id $processId -ErrorAction SilentlyContinue
         if ($process) {
             return @{
-                ProcessName = $process.ProcessName
-                WindowTitle = $windowTitle
+                ProcessName     = $process.ProcessName
+                WindowTitle     = $windowTitle
                 MainWindowTitle = $process.MainWindowTitle
             }
         }
-    } catch {
+    }
+    catch {
         # Process might have exited
     }
 
@@ -124,9 +238,57 @@ function Get-CleanAppName {
         }
     }
 
-    # Fallback to process name with some cleanup
-    $cleanName = $processName -replace "64$", "" -replace "32$", ""
-    return $cleanName.Substring(0, 1).ToUpper() + $cleanName.Substring(1)
+    # Try to extract from beginning of title (before " - ")
+    if ($windowTitle -match "^([^-|—]+)") {
+        $extracted = $Matches[1].Trim()
+        # If it looks like a file path or document name, skip
+        if ($extracted.Length -gt 2 -and $extracted.Length -lt 25 -and 
+            $extracted -notmatch "^[A-Z]:\\" -and 
+            $extracted -notmatch "\.(txt|doc|pdf|md|js|py|html)$") {
+            # Check if it's just the app name (not a document title)
+            if ($extracted -match "^\w+$" -or $extracted -match "^[\w\s]+$") {
+                return $extracted
+            }
+        }
+    }
+
+    # Fallback to process name with smart cleanup
+    $cleanName = $processName
+    
+    # Remove common suffixes
+    $cleanName = $cleanName -replace "64$", ""
+    $cleanName = $cleanName -replace "32$", ""
+    $cleanName = $cleanName -replace "\.exe$", ""
+    $cleanName = $cleanName -replace "App$", ""
+    $cleanName = $cleanName -replace "Application$", ""
+    
+    # Handle CamelCase: insert spaces (e.g., "MyAppName" -> "My App Name")
+    $cleanName = $cleanName -creplace '([a-z])([A-Z])', '$1 $2'
+    
+    # Handle consecutive uppercase (e.g., "VSCode" -> "VS Code")
+    $cleanName = $cleanName -creplace '([A-Z]+)([A-Z][a-z])', '$1 $2'
+    
+    # Handle underscore and hyphen separators
+    $cleanName = $cleanName -replace '_', ' '
+    $cleanName = $cleanName -replace '-', ' '
+    
+    # Capitalize first letter of each word
+    $words = $cleanName -split '\s+' | Where-Object { $_ -ne "" }
+    $result = ($words | ForEach-Object {
+            if ($_.Length -gt 0) {
+                $_.Substring(0, 1).ToUpper() + $_.Substring(1)
+            }
+        }) -join ' '
+    
+    # Clean up extra spaces
+    $result = $result -replace '\s+', ' '
+    $result = $result.Trim()
+    
+    if ($result.Length -gt 0) {
+        return $result
+    }
+    
+    return $processName
 }
 
 function Send-ActivityReport {
@@ -138,7 +300,7 @@ function Send-ActivityReport {
 
     $headers = @{
         "Authorization" = "Bearer $API_SECRET"
-        "Content-Type" = "application/json"
+        "Content-Type"  = "application/json"
     }
 
     $body = @{
@@ -148,7 +310,8 @@ function Send-ActivityReport {
     try {
         $response = Invoke-RestMethod -Uri $API_URL -Method POST -Headers $headers -Body $body -TimeoutSec 10
         Write-Host "[$(Get-Date -Format 'HH:mm:ss')] Reported: $AppName" -ForegroundColor Green
-    } catch {
+    }
+    catch {
         Write-Host "[$(Get-Date -Format 'HH:mm:ss')] Failed to report: $($_.Exception.Message)" -ForegroundColor Red
     }
 }
@@ -172,7 +335,8 @@ while ($true) {
     if ($appName -and $appName -ne $lastReportedApp) {
         Send-ActivityReport -AppName $appName
         $lastReportedApp = $appName
-    } elseif ($appName) {
+    }
+    elseif ($appName) {
         # Periodic report even if same app (to keep the status alive)
         Send-ActivityReport -AppName $appName
     }
