@@ -4,7 +4,8 @@
     "type": "module",
     "private": true,
     "scripts": {
-        "check": "node scripts/check-db.js",
+        "build": "echo 'No build step required'",
+        "check-db": "node scripts/check-db.js",
         "dev": "vercel dev"
     },
     "dependencies": {
