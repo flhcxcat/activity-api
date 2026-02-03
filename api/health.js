@@ -1,7 +1,6 @@
-import { Redis } from '@upstash/redis';
+import Redis from 'ioredis';
 
 export default async function handler(req, res) {
-    // Set CORS headers
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
 
@@ -18,10 +17,8 @@ export default async function handler(req, res) {
         checks: {}
     };
 
-    // Check environment variables
     results.checks.envVars = {
-        UPSTASH_REDIS_REST_URL: !!process.env.UPSTASH_REDIS_REST_URL,
-        UPSTASH_REDIS_REST_TOKEN: !!process.env.UPSTASH_REDIS_REST_TOKEN,
+        REDIS_URL: !!process.env.REDIS_URL,
         API_SECRET: !!process.env.API_SECRET
     };
 
@@ -36,33 +33,24 @@ export default async function handler(req, res) {
 
     results.checks.envVars.status = 'pass';
 
-    // Test Redis connection
+    let redis;
     try {
-        const redis = new Redis({
-            url: process.env.UPSTASH_REDIS_REST_URL,
-            token: process.env.UPSTASH_REDIS_REST_TOKEN,
+        redis = new Redis(process.env.REDIS_URL, {
+            maxRetriesPerRequest: 1,
+            connectTimeout: 3000
         });
 
-        // Test write
         const testKey = '__health_check_test__';
         const testValue = Date.now().toString();
-        await redis.set(testKey, testValue, { ex: 60 });
+        
+        await redis.set(testKey, testValue, 'EX', 60);
 
-        // Test read
         const readValue = await redis.get(testKey);
 
-        // Use loose comparison since Upstash may return different types
-        if (readValue && String(readValue) === testValue) {
+        if (readValue === testValue) {
             results.checks.redis = {
                 status: 'pass',
                 message: 'Redis connection successful',
-                latency: 'ok'
-            };
-        } else if (readValue) {
-            // Got a value back, connection works even if types differ
-            results.checks.redis = {
-                status: 'pass',
-                message: 'Redis connection successful (type coercion)',
                 latency: 'ok'
             };
         } else {
@@ -72,12 +60,15 @@ export default async function handler(req, res) {
             };
         }
 
-        // Clean up
         await redis.del(testKey);
 
-        // Get current activity if exists
         const currentActivity = await redis.get('current-activity');
-        results.currentActivity = currentActivity || null;
+        
+        try {
+            results.currentActivity = currentActivity ? JSON.parse(currentActivity) : null;
+        } catch {
+            results.currentActivity = currentActivity;
+        }
 
     } catch (error) {
         results.checks.redis = {
@@ -86,6 +77,10 @@ export default async function handler(req, res) {
         };
         results.status = 'error';
         return res.status(500).json(results);
+    } finally {
+        if (redis) {
+            redis.quit();
+        }
     }
 
     results.status = 'ok';
