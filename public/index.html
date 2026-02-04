@@ -244,6 +244,34 @@
                 padding: 16px 4px;
             }
 
+            /* Shorten header labels on mobile */
+            .table-header span:nth-child(1) {
+                font-size: 0;
+            }
+
+            .table-header span:nth-child(1)::after {
+                content: '名称';
+                font-size: 0.75rem;
+            }
+
+            .table-header span:nth-child(2) {
+                font-size: 0;
+            }
+
+            .table-header span:nth-child(2)::after {
+                content: '时长';
+                font-size: 0.75rem;
+            }
+
+            .table-header span:nth-child(3) {
+                font-size: 0;
+            }
+
+            .table-header span:nth-child(3)::after {
+                content: '%';
+                font-size: 0.75rem;
+            }
+
             .bar-label {
                 width: 80px;
                 font-size: 0.75rem;
@@ -255,7 +283,7 @@
 
             .table-header,
             .table-row {
-                grid-template-columns: 1fr auto auto 30px;
+                grid-template-columns: 1fr 65px 40px 28px;
                 gap: 4px;
                 padding: 12px 0;
             }
@@ -272,16 +300,16 @@
 
             .table-row .duration {
                 white-space: nowrap;
-                font-size: 0.82rem;
+                font-size: 0.8rem;
                 color: var(--accent-blue);
-                padding-right: 2px;
+                min-width: 65px;
             }
 
             .table-header span:nth-child(3),
             .table-row .percentage {
                 display: block;
                 font-size: 0.75rem;
-                min-width: 42px;
+                min-width: 40px;
             }
 
             .table-row .percentage .percentage-bar {
