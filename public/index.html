@@ -169,6 +169,7 @@
         }
 
         .empty-state {
+
             text-align: center;
             padding: 60px 20px;
             color: var(--text-secondary);
@@ -407,8 +408,8 @@
         let currentDevice = 'PC';
 
         function formatDuration(seconds) {
-            if (seconds < 60) return `${seconds}秒`;
-            if (seconds < 3600) return `${Math.floor(seconds / 60)}分钟`;
+            if (seconds < 60) return `${seconds}s`;
+            if (seconds < 3600) return `${Math.floor(seconds / 60)}m`;
             const hours = Math.floor(seconds / 3600);
             const mins = Math.floor((seconds % 3600) / 60);
             return mins > 0 ? `${hours}h ${mins}m` : `${hours}h`;
@@ -462,7 +463,7 @@
 
             if (entries.length === 0) {
                 container.innerHTML = '<div class="empty-state"><p>今天还没有使用记录</p></div>';
-                totalEl.textContent = '0分钟';
+                totalEl.textContent = '0m';
                 appCountEl.textContent = '0';
                 longestAppEl.textContent = '-';
                 return;
