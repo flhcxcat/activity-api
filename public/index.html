@@ -236,6 +236,10 @@
         }
 
         @media (max-width: 600px) {
+            body {
+                padding: 15px 10px;
+            }
+
             .bar-label {
                 width: 80px;
                 font-size: 0.75rem;
@@ -247,9 +251,14 @@
 
             .table-header,
             .table-row {
-                grid-template-columns: 1fr 80px 40px;
+                grid-template-columns: 1.5fr 1fr 40px;
                 gap: 8px;
-                padding: 10px;
+                padding: 12px 8px;
+            }
+
+            .table-header span:nth-child(2),
+            .table-row .duration {
+                text-align: right;
             }
 
             .table-header span:nth-child(3),
