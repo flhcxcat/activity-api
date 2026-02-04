@@ -245,10 +245,14 @@
                 font-size: 1.5rem;
             }
 
+            .table-header,
             .table-row {
-                grid-template-columns: 1fr auto auto;
+                grid-template-columns: 1fr 80px 40px;
+                gap: 8px;
+                padding: 10px;
             }
 
+            .table-header span:nth-child(3),
             .table-row .percentage {
                 display: none;
             }
