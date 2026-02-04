@@ -235,95 +235,6 @@
             margin-top: 4px;
         }
 
-        @media (max-width: 600px) {
-            body {
-                padding: 15px 5px;
-            }
-
-            .chart-card {
-                padding: 16px 4px;
-            }
-
-            /* Shorten header labels on mobile */
-            .table-header span:nth-child(1) {
-                font-size: 0;
-            }
-
-            .table-header span:nth-child(1)::after {
-                content: '名称';
-                font-size: 0.75rem;
-            }
-
-            .table-header span:nth-child(2) {
-                font-size: 0;
-            }
-
-            .table-header span:nth-child(2)::after {
-                content: '时长';
-                font-size: 0.75rem;
-            }
-
-            .table-header span:nth-child(3) {
-                font-size: 0;
-            }
-
-            .table-header span:nth-child(3)::after {
-                content: '%';
-                font-size: 0.75rem;
-            }
-
-            .bar-label {
-                width: 80px;
-                font-size: 0.75rem;
-            }
-
-            .header h1 {
-                font-size: 1.5rem;
-            }
-
-            .table-header,
-            .table-row {
-                grid-template-columns: 1fr 65px 40px 28px;
-                gap: 4px;
-                padding: 12px 0;
-            }
-
-            .table-header span:nth-child(n+2),
-            .table-row .duration,
-            .table-row .percentage,
-            .table-row>div:last-child {
-                display: flex;
-                justify-content: flex-end;
-                align-items: center;
-                text-align: right;
-            }
-
-            .table-row .duration {
-                white-space: nowrap;
-                font-size: 0.8rem;
-                color: var(--accent-blue);
-                min-width: 65px;
-            }
-
-            .table-header span:nth-child(3),
-            .table-row .percentage {
-                display: block;
-                font-size: 0.75rem;
-                min-width: 40px;
-            }
-
-            .table-row .percentage .percentage-bar {
-                display: none;
-            }
-
-            .table-row .app-name {
-                min-width: 0;
-            }
-
-            .rank {
-                margin: 0;
-            }
-        }
 
         /* Table styles */
         .usage-table {
@@ -425,6 +336,69 @@
         .table-row .rank.normal {
             background: rgba(255, 255, 255, 0.1);
             color: var(--text-secondary);
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 15px 5px;
+            }
+
+            .chart-card {
+                padding: 16px 4px;
+            }
+
+            .bar-label {
+                width: 80px;
+                font-size: 0.75rem;
+            }
+
+            .header h1 {
+                font-size: 1.5rem;
+            }
+
+            .table-header,
+            .table-row {
+                /* Definitive narrow columns for metrics */
+                grid-template-columns: 1fr 70px 45px 30px;
+                gap: 4px;
+                padding: 12px 0;
+            }
+
+            .table-header span:nth-child(n+2),
+            .table-row .duration,
+            .table-row .percentage,
+            .table-row>div:last-child {
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+                text-align: right;
+            }
+
+            .table-row .duration {
+                white-space: nowrap;
+                font-size: 0.8rem;
+                color: var(--accent-blue);
+                min-width: 70px;
+            }
+
+            .table-header span:nth-child(3),
+            .table-row .percentage {
+                display: block;
+                font-size: 0.75rem;
+                min-width: 45px;
+            }
+
+            .table-row .percentage .percentage-bar {
+                display: none;
+            }
+
+            .table-row .app-name {
+                min-width: 0;
+            }
+
+            .rank {
+                margin: 0;
+            }
         }
     </style>
 </head>
@@ -580,10 +554,10 @@
 
             let html = `
                 <div class="table-header">
-                    <span>应用名称</span>
-                    <span>使用时长</span>
+                    <span>应用</span>
+                    <span>时长</span>
                     <span>占比</span>
-                    <span>排名</span>
+                    <span>#</span>
                 </div>
             `;
 
